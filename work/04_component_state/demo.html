@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>04_component_state</title>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+</head>
+<body>
+    <div id="example1"></div>
+
+    <script type="text/babel">
+       class Like extends React.Component{
+           constructor(props){
+               super(props)
+               this.state={
+                   isLikeMe:true
+               }
+
+               //为新增的方法中this强制绑定为组件对象
+               this.handleclick=this.handleclick.bind(this)
+           }
+
+           //新添加的方法内部this不是组件对象，默认是undefined
+           handleclick(){
+               //this.setState({isLikeMe:!this.state.isLikeMe})
+               const isLikeMe=!this.state.isLikeMe
+               this.setState({isLikeMe})
+           }
+
+
+           render(){
+               console.log('render()')
+               // const text=this.state.isLikeMe?"你喜欢我":"我喜欢你"
+               //读取状态
+               const {isLikeMe}=this.state
+               return <h2 onClick={this.handleclick}>{isLikeMe?"你喜欢我":"我喜欢你"}</h2>
+           }
+
+       }
+
+       ReactDOM.render(<Like />,document.getElementById('example1'))
+
+    </script>
+</body>
+</html>
+

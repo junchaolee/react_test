@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>07_component_compose</title>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+</head>
+<body>
+<div id="example"></div>
+
+<script type="text/babel">
+    /*
+       问题：数据保存在哪个组件？
+       看数据是某个组件需要还是某些组件需要(给共同的组件)
+       问题2:子组件中改变父组件中的state
+     */
+    class App extends React.Component {
+        constructor(props) {
+            super(props)
+            //初始状态
+            this.state = {
+                todos: ['吃饭', '睡觉', '打豆豆']
+            }
+
+            this.addTodo = this.addTodo.bind(this)
+        }
+
+        addTodo(todo) {
+            // this.state.todos.unshift(todo)//不能这么做
+            const {todos} = this.state
+            todos.unshift(todo)
+            this.setState({todos})
+
+        }
+
+
+        render() {
+            return (
+                <div>
+                    <h1>Simple TODO List</h1>
+                    <Add count={this.state.todos.length} addTodo={this.addTodo}/>
+                    <List todos={this.state.todos}/>
+                </div>
+            )
+        }
+    }
+
+
+    class Add extends React.Component {
+        constructor(props) {
+            super(props)
+            this.add = this.add.bind(this)
+        }
+
+        add() {
+            //1、读取输入的数据
+            const todo = this.todoInput.value.trim()
+            console.log(todo)
+            //2、检查数据的合法性
+            if (!todo) {
+                return
+            }
+            //3、添加
+            this.props.addTodo(todo)
+            //4、清除
+            this.todoInput.value = ''
+
+        }
+
+        render() {
+            return (
+                <div>
+                    <input type="text" ref={input => this.todoInput = input}/>
+                    <button onClick={this.add}>add #{this.props.count + 1}</button>
+                </div>
+            )
+
+        }
+    }
+
+    Add.propTypes = {
+        count: PropTypes.number.isRequired,
+        addTodo: PropTypes.func.isRequired
+    }
+
+    class List extends React.Component {
+        render() {
+            return (
+                <ul>
+                    {this.props.todos.map((todo, index) => <li key={index}>{todo}</li>)}
+                </ul>
+            )
+
+        }
+    }
+
+    List.propTypes = {
+        todos: PropTypes.array.isRequired
+    }
+
+    ReactDOM.render(<App/>, document.getElementById('example'))
+</script>
+</body>
+</html>

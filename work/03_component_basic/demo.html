@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>03_component_basic</title>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+</head>
+<body>
+<div id="example1"></div>
+<div id="example2"></div>
+<script type="text/babel">
+    //1、定义组件
+    //*方式一*/
+    function MyComponenet() {
+        return <h2>工厂函数组件(简单组件)</h2>
+    }
+    //*方式二*/
+    class MyComponent2 extends React.Component{
+        render(){
+            console.log(this)
+            return <h2>ES6类组件</h2>
+        }
+    }
+
+    //2、渲染组件
+    ReactDOM.render(<MyComponenet/>,document.getElementById('example1'))
+    ReactDOM.render(<MyComponent2/>,document.getElementById('example2'))
+</script>
+
+</body>
+</html>

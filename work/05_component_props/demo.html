@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>05_component_props</title>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+</head>
+<body>
+<div id="example1"></div>
+<div id="example2"></div>
+<script type="text/babel">
+    class Person extends React.Component{
+        render(){
+            console.log(this)
+            return(
+                <ul>
+                    <li>姓名：{this.props.name}</li>
+                    <li>年龄：{this.props.age}</li>
+                    <li>性别：{this.props.sex}</li>
+                </ul>
+            )
+        }
+    }
+
+    /*function Person(props) {
+        return (
+            <ul>
+                <li>姓名：{props.name}</li>
+                <li>年龄：{props.age}</li>
+                <li>性别：{props.sex}</li>
+            </ul>
+        )
+    }*/
+    //指定属性默认值
+    Person.defaultProps={
+        sex:'男',
+        age:20
+
+    }
+
+    const p1={
+        name:'tome',
+        age:23,
+        sex:'女'
+    }
+    //ReactDOM.render(<Person name={p1.name} age={p1.age} sex={p1.sex}/>,document.getElementById('example1'))
+    /*
+    * ...作用--语法糖
+    * 1、打包
+    * function fn(...as){} fn(1,2,3)
+    * 2、解包
+    * const arr1=[1,2,3] const arr2=[6,...arr1,9]
+    */
+    ReactDOM.render(<Person {...p1}/>,document.getElementById('example1'))
+
+    const p2={
+        name:'jack'
+    }
+
+    ReactDOM.render(<Person name={p2.name}/>,document.getElementById('example2'))
+</script>
+</body>
+</html>
